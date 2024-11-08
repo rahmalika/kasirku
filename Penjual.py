@@ -6,6 +6,7 @@ import pandas as pd
 import csv
 
 def halaman_penjual(window_landing_page, landing_page):
+    
     for widget in window_landing_page.winfo_children():
         widget.destroy()
 
@@ -14,6 +15,7 @@ def halaman_penjual(window_landing_page, landing_page):
     text.pack(pady=20)
 
     # Membuat Treeview untuk tabel
+    
     tree = ttk.Treeview(window_landing_page, columns=("kode_barang", "nama_barang", "stock", "harga"), show="headings")
     tree.heading("kode_barang", text="Kode Barang")
     tree.heading("nama_barang", text="Nama Barang")
@@ -75,6 +77,8 @@ def halaman_penjual(window_landing_page, landing_page):
 
         tk.Button(edit_window, text="Simpan", command=simpan_perubahan).pack(pady=10)
 
+
+
     # Fungsi untuk menghapus data
     def hapus_data():
         selected_item = tree.selection()
@@ -99,6 +103,10 @@ def halaman_penjual(window_landing_page, landing_page):
     tombol_hapus = tk.Button(window_landing_page, text="Hapus", command=hapus_data, font=("Arial", 12), bg="#ff3b3b", fg="black", width=10)
     tombol_hapus.pack(side="right", padx=20, pady=10)
 
+    # Tombol Tambah
+    tombol_tambah = tk.Button(window_landing_page, text="Tambah", command=lambda: halaman_input_barang(window_landing_page, landing_page), font=("Arial", 14), bg="#3bdfff", fg="black", width=10, height=2)
+    tombol_tambah.place(relx=0.5, rely=0.8, anchor=CENTER)
+
     # Tampilkan data awal
     tampilkan_data()
 
@@ -111,6 +119,7 @@ def halaman_penjual(window_landing_page, landing_page):
 
 def halaman_input_barang(window_landing_page, landing_page):
 # Menghapus konten lama
+    
     for widget in window_landing_page.winfo_children():
         widget.destroy()
     
@@ -119,7 +128,7 @@ def halaman_input_barang(window_landing_page, landing_page):
     text.pack(pady=50)
 
     tombol_kembali = tk.Button(window_landing_page, text="Kembali", command=landing_page, font=("Arial", 14), bg="#3bdfff", fg="black", width=10, height=2)
-    tombol_kembali.place(relx=0.5, rely=0.8, anchor=CENTER)
+    tombol_kembali.place(relx=0.5, rely=0.9, anchor=CENTER)
 
     # Input nama barang
     label_nama_barang = tk.Label(window_landing_page, text="Nama Barang:", font=("Arial", 12))
