@@ -1,6 +1,6 @@
-kode_barang,nama_barang,stock,harga,Kode Barang,Nama Barang,Stock,Harga
-7D524,kacamata,250.0,250000.0,,,,
-BE003,Beras,20.0,2000.0,,,,
-KO003,Kopi,2.0,10000.0,,,,
-NA004,Nasi Uduk,12.0,120000.0,,,,
-NA005,Nasi Goreng,12.0,20000.0,,,,
+kode_barang,nama_barang,stock,harga
+7D524,Salad Buah (Original Yogurt),50.0,23000.0
+NA004,Salad Manja (Original),200.0,20000.0
+NA005,Salad Manja (Isian Buah),100.0,25000.0
+D7580,Salad Buah Manja Premium,250.0,30000.0
+116D7,Salad Manja Berbuah,200.0,750000.0
