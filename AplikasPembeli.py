@@ -3,7 +3,7 @@ from tkinter import messagebox, ttk, StringVar, IntVar
 import pandas as pd
 from datetime import datetime
 
-class TransaksiApp:
+class AplikasiPembeli:
     def __init__(self, root, csv_file="data_barang.csv"):
         self.root = root
         self.root.title("Halaman Transaksi")
@@ -76,7 +76,9 @@ class TransaksiApp:
         self.nominal_entry = tk.Entry(self.payment_frame)
         self.nominal_label = tk.Label(self.payment_frame, text="Nominal Uang (Rp)")
         
-        self.rekening_label = tk.Label(self.payment_frame, text="Nomor Rekening: 1234567890")
+        self.rekening_options = ["Bank A - 1234567890", "Bank B - 0987654321", "Bank C - 1122334455"]
+        self.rekening_var = StringVar(value=self.rekening_options[0])
+        self.rekening_dropdown = ttk.Combobox(self.payment_frame, textvariable=self.rekening_var, values=self.rekening_options, state="readonly")
         
         # Tampilkan opsi pembayaran pertama kali (default: tunai)
         self.update_payment_option()
@@ -114,8 +116,8 @@ class TransaksiApp:
                 })
                 
                 # Tampilkan di Treeview
-                self.tree.insert("", "end", values=(len(self.daftar_barang), kode, nama_barang, harga, qty, subtotal))
-                self.total_label.config(text=f"Grand Total Belanja: Rp {self.total_belanja}")
+                self.tree.insert("", "end", values=(len(self.daftar_barang), kode, nama_barang, f"{harga:,.0f}", qty, f"{subtotal:,.0f}"))
+                self.total_label.config(text=f"Grand Total Belanja: Rp {self.total_belanja:,.0f}")
                 
                 # Reset input
                 self.kode_barang.set("")
@@ -126,17 +128,16 @@ class TransaksiApp:
             messagebox.showwarning("Input Error", "Kode Barang dan Quantity harus diisi.")
 
     def update_payment_option(self):
-        """Update input fields based on the selected payment method."""
         if self.payment_method.get() == "tunai":
             # Tampilkan input nominal untuk tunai, sembunyikan rekening
-            self.rekening_label.pack_forget()
+            self.rekening_dropdown.pack_forget()
             self.nominal_label.pack()
             self.nominal_entry.pack()
         elif self.payment_method.get() == "transfer":
-            # Tampilkan nomor rekening, sembunyikan input nominal
+            # Tampilkan dropdown rekening bank, sembunyikan input nominal
             self.nominal_label.pack_forget()
             self.nominal_entry.pack_forget()
-            self.rekening_label.pack()
+            self.rekening_dropdown.pack()
 
     def proses_pembayaran(self):
         if not self.daftar_barang:
@@ -145,18 +146,21 @@ class TransaksiApp:
 
         if self.payment_method.get() == "tunai":
             try:
-                nominal_uang = int(self.nominal_entry.get())
+                nominal_uang = int(self.nominal_entry.get().replace(".", ""))
                 if nominal_uang < self.total_belanja:
                     messagebox.showwarning("Pembayaran Tidak Cukup", "Uang yang diberikan tidak mencukupi total belanja.")
-                    return
+                    #return
                 kembalian = nominal_uang - self.total_belanja
-                messagebox.showinfo("Pembayaran Tunai", f"Pembayaran berhasil! Kembalian: Rp {kembalian}")
+                messagebox.showinfo("Pembayaran Tunai", f"Pembayaran berhasil! Kembalian: Rp {kembalian:,.0f}")
             except ValueError:
                 messagebox.showwarning("Input Error", "Masukkan nominal uang yang valid.")
                 return
         else:
-            # Untuk transfer, cukup tampilkan notifikasi berhasil
-            messagebox.showinfo("Pembayaran Transfer", "Pembayaran melalui transfer berhasil. Silakan cek rekening Anda.")
+            # Untuk transfer, tampilkan konfirmasi rekening bank
+            selected_bank = self.rekening_var.get()
+            confirmation = messagebox.askyesno("Konfirmasi Pembayaran", f"Anda memilih transfer ke {selected_bank}. Lanjutkan?")
+            if confirmation:
+                messagebox.showinfo("Pembayaran Transfer", "Pembayaran melalui transfer berhasil. Silakan cek rekening Anda.")
         
         # Setelah pembayaran selesai, cetak invoice
         self.print_invoice()
@@ -166,17 +170,17 @@ class TransaksiApp:
         invoice = f"Nomor Penjualan: {self.nomor_penjualan.get()}\nTanggal: {self.tanggal_transaksi.get()}\n"
         invoice += "------------------------------------\n"
         for i, barang in enumerate(self.daftar_barang, start=1):
-            invoice += f"{i}. {barang['nama_barang']} - Rp {barang['harga']} x {barang['quantity']} = Rp {barang['subtotal']}\n"
+            invoice += f"{i}. {barang['nama_barang']} - Rp {barang['harga']:,} x {barang['quantity']} = Rp {barang['subtotal']:,}\n"
         invoice += "------------------------------------\n"
-        invoice += f"GRAND TOTAL: Rp {self.total_belanja}\n"
+        invoice += f"GRAND TOTAL: Rp {self.total_belanja:,.0f}\n"
         invoice += f"Metode Pembayaran: {self.payment_method.get()}\n"
         
         if self.payment_method.get() == "tunai":
-            nominal_uang = int(self.nominal_entry.get())
+            nominal_uang = int(self.nominal_entry.get().replace(".", ""))
             kembalian = nominal_uang - self.total_belanja
-            invoice += f"Uang Diberikan: Rp {nominal_uang}\nKembalian: Rp {kembalian}"
+            invoice += f"Uang Diberikan: Rp {nominal_uang:,.0f}\nKembalian: Rp {kembalian:,.0f}"
         else:
-            invoice += "Nomor Rekening Transfer: 1234567890"
+            invoice += f"Rekening Tujuan: {self.rekening_var.get()}"
         
         # Tampilkan invoice di messagebox (untuk simulasi)
         messagebox.showinfo("Invoice", invoice)
@@ -189,6 +193,5 @@ class TransaksiApp:
 
 # Inisialisasi aplikasi
 root = tk.Tk()
-app = TransaksiApp(root)
+app = AplikasiPembeli(root)
 root.mainloop()
-

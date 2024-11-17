@@ -1,5 +1,6 @@
 from tkinter import *
 from AplikasiPenjual import AplikasiPenjual
+from AplikasPembeli import AplikasiPembeli
 from tkinter import messagebox  # Import messagebox secara eksplisit
 
 class AplikasiKasirku:
@@ -65,11 +66,12 @@ class AplikasiKasirku:
     # Fungsi untuk membuka halaman Penjual
     def buka_halaman_penjual(self):
         AplikasiPenjual(self.window)
-
+    
+    
     # Fungsi untuk membuka halaman Pembeli
     def buka_halaman_pembeli(self):
-        print("Halaman Penjual dibuka")  # Ganti dengan logika membuka halaman penjual
-
+        AplikasiPembeli(self.window)
+    
     # Fungsi untuk menangani peringatan saat menutup jendela
     def on_closing(self):
         if messagebox.askokcancel("Keluar", "Apakah Anda yakin ingin menutup aplikasi?"):
