@@ -1,5 +1,13 @@
-kode_barang,nama_barang,stock,harga
-7D524,Salad Buah (Original Yogurt),50.0,23000.0
-NA004,Salad Manja (Original),200.0,20000.0
-NA005,Salad Manja (Isian Buah),100.0,25000.0
-D7580,Salad Buah Manja Premium,250.0,30000.0
+kode_barang,nama_barang,harga,stock
+7D524,Salad Buah (Original Yogurt),23000.0,3.0
+21790,Salad Manja Premium,55000.0,110.0
+2BAD6,Salad Manja Sekali,45000.0,124.0
+F3E06,Salad Manja Full Jelly,35000.0,30.0
+53C6C,Buku Gambar,12000.0,90.0
+60FD5,Buku Gambar,20000.0,50.0
+C7E42,Penggaris,12000.0,30.0
+66135,Spidol Warna,15000.0,400.0
+A1093,Stabilo,8000.0,13.0
+6E75E,Spidol BoardMaker,11000.0,15.0
+2DAFD,Penghapus,5000.0,80.0
+8A8ED,Kertas Folio Bergaris,30000.0,100.0
